@@ -34,6 +34,17 @@ router.post('/', (req,res,next) => {
     })
 })
 
+router.patch('/:id', (req,res,next) => {
+  let id=req.params.id
+  knex('classifieds')
+    .where('id', id)
+    .returning(['id', 'title', 'description', 'price', 'item_image'])
+    .update(req.body)
+    .then(updatedData => {
+      res.send(updatedData[0])
+    })
+})
+
 router.delete('/:id', (req,res,next) => {
   let id= req.params.id
   knex('classifieds')
